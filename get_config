@@ -1,0 +1,22 @@
+[user]
+  name = JaredCowan
+  email = jaredlc@outlook.com
+[color]
+  ui = auto
+[alias]
+  s = status
+  p = push origin master
+  g = pull
+  c = commit -m
+  a = add -A
+  co = checkout
+  b = branch
+  rh = reset -head
+  st = status
+  d = !git add -A && git commit -m
+  hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+[push]
+  default = simple
+[filter "media"]
+  clean = git-media-clean %f
+  smudge = git-media-smudge %f
