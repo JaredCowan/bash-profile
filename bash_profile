@@ -211,15 +211,14 @@ install_htop() {
   echo -n "${RESET}${PURPLE}Would you like to continue with the download? ${RESET}${GREEN}yes${RESET}${RED}/${RESET}${RED}no:${RESET} "
   read response
   if [[ "$response" == "yes" || "$response" == "Yes" || "$response" == "YES" ]]; then
-    printf "First yes"
-    # curl -O "http://themainframe.ca/wp-content/uploads/2011/06/htop.zip"
-    # unzip htop.zip
+    curl -O "http://themainframe.ca/wp-content/uploads/2011/06/htop.zip"
+    unzip htop.zip
     printf "\n${RESET}${RED}$USER${RESET}${BCYAN}, It's going to ask for your password as we need to run ${RESET}${RED}\"sudo mv htop /bin\"${RESET}.\n"
     echo -n "${RESET}${PURPLE}Would you like to continue? ${RESET}${GREEN}yes${RESET}${RED}/${RESET}${RED}no:${RESET} "
     read secondResponse
     if [[ "$secondResponse" == "yes" || "$secondResponse" == "Yes" || "$secondResponse" == "YES" ]]; then
-      # sudo mv htop /bin
-      # rm htop.zip
+      sudo mv htop /bin
+      rm htop.zip
       printf "${RESET}${GREEN}You are all installed. Restart terminal and try running \"htop\"${RESET}\n"
     elif [[ "$secondResponse" == "no" || "$secondResponse" == "No" || "$secondResponse" == "NO" ]]; then
       printf "${RESET}${RED}Download canceled.${RESET}\n"
