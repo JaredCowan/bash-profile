@@ -46,6 +46,52 @@ eval "$(rbenv init -)"
 export PATH="$HOME/.rbenv/shims:$PATH"
 eval "$(rbenv init -)"
 export PATH="$HOME/.rbenv/shims:$PATH"
+push() {
+  SUCCESS=false
+  SSH=jaredcowan@sincitylivin.com
+  REMOTE=public_html/jaredlucascowan.com/thriii
+  LOCALFILE=~/Documents/Thriii
+  if [ $# -gt 0 ]; then
+    if [ $# -eq 1 ] && [ "$1" == "thriii" ]; then
+      SUCCESS=true
+      scp "$LOCALFILE/index.html" "$SSH:$REMOTE"
+      scp -r "$LOCALFILE/css" "$SSH:$REMOTE/css"
+      scp "$LOCALFILE/js/common-scripts.js" "$SSH:$REMOTE/js"
+    elif [ $# -eq 2 ] && [ "$1" == "thriii" ] && [ "$2" == "-a" ]; then
+      scp -r "$LOCALFILE/index.html" "$SSH:$REMOTE"
+      scp -r "$LOCALFILE/css" "$SSH:$REMOTE"
+      scp -r "$LOCALFILE/js" "$SSH:$REMOTE"
+      scp -r "$LOCALFILE/assets" "$SSH:$REMOTE"
+    elif [ !$SUCCESS ]; then
+      echo "${RESET}${BLUE}${BOLD}$1 ${RESET}${RED} is not a valid argument for ${RESET}${BLUE}${BOLD}PUSH${RESET}"
+    fi
+    else
+      echo "${RESET}${RED}No argument(s) supplied${RESET}"
+  fi
+}
+install_htop() {
+  cd ~
+  printf "${RESET}${RED}$USER${RESET}${BCYAN}, We're going to curl and download the file\nin your home directory ${RESET}${RED}\"$PWD\".${RESET}\n"
+  printf "${RESET}${GREEN}Here is a link to view what you're downloading, ${RED}$USER${RESET}.\n${BLUE}http://themainframe.ca/2011/06/install-htop-on-mac-os-x/${RESET}\n"
+  echo -n "${RESET}${PURPLE}Would you like to continue with the download? ${RESET}${GREEN}yes${RESET}${RED}/${RESET}${RED}no:${RESET} "
+  read response
+  if [[ "$response" == "yes" || "$response" == "Yes" || "$response" == "YES" ]]; then
+    curl -O "http://themainframe.ca/wp-content/uploads/2011/06/htop.zip"
+    unzip htop.zip
+    printf "\n${RESET}${RED}$USER${RESET}${BCYAN}, It's going to ask for your password as we need to run ${RESET}${RED}\"sudo mv htop /bin\"${RESET}.\n"
+    echo -n "${RESET}${PURPLE}Would you like to continue? ${RESET}${GREEN}yes${RESET}${RED}/${RESET}${RED}no:${RESET} "
+    read secondResponse
+    if [[ "$secondResponse" == "yes" || "$secondResponse" == "Yes" || "$secondResponse" == "YES" ]]; then
+      sudo mv htop /bin
+      rm htop.zip
+      printf "${RESET}${GREEN}You are all installed. Restart terminal and try running \"htop\"${RESET}\n"
+    elif [[ "$secondResponse" == "no" || "$secondResponse" == "No" || "$secondResponse" == "NO" ]]; then
+      printf "${RESET}${RED}Download canceled.${RESET}\n"
+    fi
+  elif [[ "$response" == "no" || "$response" == "No" || "$response" == "NO" ]]; then
+    printf "${RESET}${GREEN}Download canceled.${RESET}\n"
+  fi
+}
 lazy() { for x; do touch "$x"; open "$x"; done; }
 dir() { for x; do mkdir "$x"; cd "$x"; done; }
 geth() {
@@ -55,7 +101,7 @@ geth() {
   printf "git g  = pull\n"
   printf "git c  = commit -m\n"
   printf "git a  = add -A\n"
-  printf "git co = checkout\n"
+  printf "git co = checkout -b\n"
   printf "git b  = branch\n"
   printf "git rh = reset -head\n"
   printf "git st = status\n"
@@ -117,7 +163,7 @@ get_git_branch() {
     if [[ $git_state ]]; then
       git_info="$git_info${RESET}[$git_state${RESET}]"
     fi
-    printf "${WHITE} on ${style_branch}${git_info}"
+    printf "${BLUE} on ${style_branch}${git_info}"
   }
   if [[ $COLORTERM = gnome-* && $TERM = xterm ]] && infocmp gnome-256color >/dev/null 2>&1; then
     export TERM=gnome-256color
@@ -137,7 +183,7 @@ get_git_branch() {
     CYAN=$(tput setaf 6)
     WHITE=$(tput setaf 7)
     ORANGE=$(tput setaf 172)
-    # GREEN=$(tput setaf 190)
+    GREEN=$(tput setaf 190)
     PURPLE=$(tput setaf 141)
     BG_BLACK=$(tput setab 0)
     BG_RED=$(tput setab 1)
@@ -174,8 +220,10 @@ else
   RESET="\033[m"
 fi
 export PATH=/bin:/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin:$PATH
-export EDITOR='subl -w'
+# export EDITOR='subl -w'
+export EDITOR='subl'
 export PATH=/usr/local/bin:$PATH
+export PATH="$HOME/bin/git-deploy:$PATH"
 export PATH="$HOME/.rbenv/bin:$PATH"
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
@@ -192,38 +240,15 @@ PATH=/usr/local/share/npm/bin:$PATH
 PATH="/Applications/Postgres.app/Contents/Versions/9.3/bin:$PATH"
 PATH="/usr/local/heroku/bin:$PATH"
 style_user="\[${RESET}${YELLOW}\]"
-style_path="\[${RESET}${CYAN}\]"
-style_chars="\[${RESET}${WHITE}\]"
-style_charss="\[${RESET}${PURPLE}\]"
+style_path="\[${RESET}${BCYAN}\]"
+# style_chars="\[${RESET}${WHITE}\]"
+style_chartwo="\[${RESET}${PURPLE}\]"
 style_branch="${RED}"
 PS1="${style_user}\u"
 PS1+="${style_path} \w"
 PS1+="\$(prompt_git)"
 PS1+="\n"
-PS1+="${style_charss}\$ \[${RESET}\]"
+PS1+="${style_chars}\$ \[${RESET}\]"
 if [ -f ~/.extra ]; then
   source ~/.extra
 fi
-install_htop() {
-  cd ~
-  printf "${RESET}${RED}$USER${RESET}${BCYAN}, We're going to curl and download the file\nin your home directory ${RESET}${RED}\"$PWD\".${RESET}\n"
-  printf "${RESET}${GREEN}Here is a link to view what you're downloading, ${RED}$USER${RESET}.\n${BLUE}http://themainframe.ca/2011/06/install-htop-on-mac-os-x/${RESET}\n"
-  echo -n "${RESET}${PURPLE}Would you like to continue with the download? ${RESET}${GREEN}yes${RESET}${RED}/${RESET}${RED}no:${RESET} "
-  read response
-  if [[ "$response" == "yes" || "$response" == "Yes" || "$response" == "YES" ]]; then
-    curl -O "http://themainframe.ca/wp-content/uploads/2011/06/htop.zip"
-    unzip htop.zip
-    printf "\n${RESET}${RED}$USER${RESET}${BCYAN}, It's going to ask for your password as we need to run ${RESET}${RED}\"sudo mv htop /bin\"${RESET}.\n"
-    echo -n "${RESET}${PURPLE}Would you like to continue? ${RESET}${GREEN}yes${RESET}${RED}/${RESET}${RED}no:${RESET} "
-    read secondResponse
-    if [[ "$secondResponse" == "yes" || "$secondResponse" == "Yes" || "$secondResponse" == "YES" ]]; then
-      sudo mv htop /bin
-      rm htop.zip
-      printf "${RESET}${GREEN}You are all installed. Restart terminal and try running \"htop\"${RESET}\n"
-    elif [[ "$secondResponse" == "no" || "$secondResponse" == "No" || "$secondResponse" == "NO" ]]; then
-      printf "${RESET}${RED}Download canceled.${RESET}\n"
-    fi
-  elif [[ "$response" == "no" || "$response" == "No" || "$response" == "NO" ]]; then
-    printf "${RESET}${GREEN}Download canceled.${RESET}\n"
-  fi
-}
