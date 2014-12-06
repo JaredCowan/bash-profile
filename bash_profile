@@ -78,7 +78,7 @@ push() {
       fi
       cd $HOME/bash-files
       cp $HOME/.bash_profile $HOME/bash-files/bash_profile
-      cp $HOME/.gitconfig $HOME/bash-files
+      cp $HOME/.gitconfig $HOME/bash-files/git_config
       $(git d "$commitmessage" && git p)
       cd $currentworkingdir
     elif [ !$SUCCESS ]; then
