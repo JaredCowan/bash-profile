@@ -66,6 +66,7 @@ push() {
     elif [ "$1" == "bash" ]; then
       SUCCESS=true
       currentworkingdir=$(pwd)
+      cd $HOME/bash-files
       if [ "$2" == "-m" ]; then
         printf "${RESET}${BOLD}${RED}Please don't use quotes.${RESET}\n"
         echo -n "Commit Message: "
@@ -76,7 +77,6 @@ push() {
       else
         commitmessage='"Updating Bash Files"'
       fi
-      cd $HOME/bash-files
       cp $HOME/.bash_profile $HOME/bash-files/bash_profile
       cp $HOME/.gitconfig $HOME/bash-files/git_config
       $(git d "${commitmessage}" && git p)
