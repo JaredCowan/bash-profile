@@ -74,7 +74,7 @@ push() {
         read commitmessageentry
         commitmessage='"'
         commitmessage+="${commitmessageentry}"
-        commitmessage='"'
+        commitmessage+='"'
       else
         commitmessage='"Updating Bash Files"'
       fi
