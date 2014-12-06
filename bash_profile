@@ -259,15 +259,15 @@ PATH=/usr/local/share/npm/bin:$PATH
 PATH="/Applications/Postgres.app/Contents/Versions/9.3/bin:$PATH"
 PATH="/usr/local/heroku/bin:$PATH"
 style_user="\[${RESET}${YELLOW}\]"
-style_path="\[${RESET}${BCYAN}\]"
-# style_chars="\[${RESET}${WHITE}\]"
+style_path="\[${RESET}${CYAN}\]"
+style_chars="\[${RESET}${BLUE}\]"
 style_chartwo="\[${RESET}${PURPLE}\]"
 style_branch="${RED}"
 PS1="${style_user}\u"
 PS1+="${style_path} \w"
 PS1+="\$(prompt_git)"
 PS1+="\n"
-PS1+="${style_chars}\$ \[${RESET}\]"
+PS1+="${style_chars}\$ \[${RESET}\]${style_user}"
 if [ -f ~/.extra ]; then
   source ~/.extra
 fi
