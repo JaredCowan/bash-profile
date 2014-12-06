@@ -72,7 +72,7 @@ push() {
         printf "${RESET}${BOLD}${RED}Please don't use quotes.${RESET}\n"
         echo -n "Commit Message: "
         read commitmessageentry
-        commitmessage='"$commitmessageentry"'
+        commitmessage='"${commitmessageentry}"'
       else
         commitmessage='"Updating Bash Files"'
       fi
