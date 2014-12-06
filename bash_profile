@@ -65,6 +65,7 @@ push() {
       scp -r "$LOCALFILE/assets" "$SSH:$REMOTE"
     elif [ "$1" == "bash" ]; then
       SUCCESS=true
+      currentworkingdir=$(pwd)
       # echo -n "${RESET}${BOLD}${BLUE}Would you like to add a commit message? ${RESET}${GREEN}yes${RESET}${RED}/${RESET}${RED}no:${RESET} "
       # read response
       if [ "$2" == "-m" ]; then
@@ -75,12 +76,13 @@ push() {
       else
         commitmessage='"Updating Bash Files"'
       fi
-      echo $commitmessage
+      # echo $commitmessage
+      cd $HOME/bash-files
       cp $HOME/.bash_profile $HOME/bash-files/bash_profile
       cp $HOME/.gitconfig $HOME/bash-files
-      cd $HOME/bash-files
       $(git d "$commitmessage")
       $(git p)
+      cd $currentworkingdir
     elif [ !$SUCCESS ]; then
       echo "${RESET}${BLUE}${BOLD}$@ ${RESET}${RED} is not a valid argument for ${RESET}${BLUE}${BOLD}PUSH${RESET}"
     fi
