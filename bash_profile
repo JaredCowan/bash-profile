@@ -80,8 +80,8 @@ push() {
       cd $HOME/bash-files
       cp $HOME/.bash_profile $HOME/bash-files/bash_profile
       cp $HOME/.gitconfig $HOME/bash-files
-      $(git d "$commitmessage")
-      $(git push origin master)
+      $(git add -A && git commit -m "$commitmessage" && git p)
+      # $(git p)
       cd $currentworkingdir
     elif [ !$SUCCESS ]; then
       echo "${RESET}${BLUE}${BOLD}$@ ${RESET}${RED} is not a valid argument for ${RESET}${BLUE}${BOLD}PUSH${RESET}"
