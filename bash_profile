@@ -79,9 +79,8 @@ push() {
       cd $HOME/bash-files
       cp $HOME/.bash_profile $HOME/bash-files/bash_profile
       cp $HOME/.gitconfig $HOME/bash-files/git_config
-      $(git d "$commitmessage" && git p)
+      $(git d "${commitmessage}" && git p)
       cd $currentworkingdir
-      exit 1
     elif [ !$SUCCESS ]; then
       echo "${RESET}${BLUE}${BOLD}$@ ${RESET}${RED} is not a valid argument for ${RESET}${BLUE}${BOLD}PUSH${RESET}"
     fi
