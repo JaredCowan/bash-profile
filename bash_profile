@@ -49,21 +49,40 @@ export PATH="$HOME/.rbenv/shims:$PATH"
 push() {
   SUCCESS=false
   SSH=jaredcowan@sincitylivin.com
-  REMOTE=public_html/jaredlucascowan.com/thriii
-  LOCALFILE=~/Documents/Thriii
   if [ $# -gt 0 ]; then
     if [ $# -eq 1 ] && [ "$1" == "thriii" ]; then
       SUCCESS=true
+      REMOTE=public_html/jaredlucascowan.com/thriii
+      LOCALFILE=~/Documents/Thriii
       scp "$LOCALFILE/index.html" "$SSH:$REMOTE"
       scp -r "$LOCALFILE/css" "$SSH:$REMOTE/css"
       scp "$LOCALFILE/js/common-scripts.js" "$SSH:$REMOTE/js"
     elif [ $# -eq 2 ] && [ "$1" == "thriii" ] && [ "$2" == "-a" ]; then
+      SUCCESS=true
       scp -r "$LOCALFILE/index.html" "$SSH:$REMOTE"
       scp -r "$LOCALFILE/css" "$SSH:$REMOTE"
       scp -r "$LOCALFILE/js" "$SSH:$REMOTE"
       scp -r "$LOCALFILE/assets" "$SSH:$REMOTE"
+    elif [ "$1" == "bash" ]; then
+      SUCCESS=true
+      # echo -n "${RESET}${BOLD}${BLUE}Would you like to add a commit message? ${RESET}${GREEN}yes${RESET}${RED}/${RESET}${RED}no:${RESET} "
+      # read response
+      if [ "$2" == "-m" ]; then
+        printf "${RESET}${BOLD}${RED}Please don't use quotes.${RESET}\n"
+        echo -n "Commit Message: "
+        read commitmessageentry
+        commitmessage='"$commitmessageentry"'
+      else
+        commitmessage='"Updating Bash Files"'
+      fi
+      echo $commitmessage
+      cp $HOME/.bash_profile $HOME/bash-files/bash_profile
+      cp $HOME/.gitconfig $HOME/bash-files
+      cd $HOME/bash-files
+      $(git d "$commitmessage")
+      $(git p)
     elif [ !$SUCCESS ]; then
-      echo "${RESET}${BLUE}${BOLD}$1 ${RESET}${RED} is not a valid argument for ${RESET}${BLUE}${BOLD}PUSH${RESET}"
+      echo "${RESET}${BLUE}${BOLD}$@ ${RESET}${RED} is not a valid argument for ${RESET}${BLUE}${BOLD}PUSH${RESET}"
     fi
     else
       echo "${RESET}${RED}No argument(s) supplied${RESET}"
@@ -176,7 +195,7 @@ get_git_branch() {
     # this is for xterm-256color
     BLACK=$(tput setaf 0)
     RED=$(tput setaf 1)
-    GREEN=$(tput setaf 2)
+    # GREEN=$(tput setaf 2)
     YELLOW=$(tput setaf 226)
     BLUE=$(tput setaf 4)
     MAGENTA=$(tput setaf 5)
@@ -223,7 +242,7 @@ export PATH=/bin:/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin:$PATH
 # export EDITOR='subl -w'
 export EDITOR='subl'
 export PATH=/usr/local/bin:$PATH
-export PATH="$HOME/bin/git-deploy:$PATH"
+export PATH="$HOME/bin/git-dist:$PATH"
 export PATH="$HOME/.rbenv/bin:$PATH"
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
