@@ -112,13 +112,14 @@ install_htop() {
   fi
 }
 checkfile() {
-  lcl=$HOME/.bash_profile
-  rmt=$HOME/bash-files/bash_profile
-  if [ $lcl -nt $rmt ]; then
-    echo "File 1 is newer than file 2"
-  else
-    echo "File 1 is older than file 2"
-  fi
+  # lcl=$HOME/.bash_profile
+  # rmt=$HOME/bash-files/bash_profile
+  # if [ $lcl -nt $rmt ]; then
+  #   echo "File 1 is newer than file 2"
+  # else
+  #   echo "File 1 is older than file 2"
+  # fi
+  echo
 }
 lazy() { for x; do touch "$x"; open "$x"; done; }
 dir() { for x; do mkdir "$x"; cd "$x"; done; }
@@ -277,7 +278,6 @@ PS1+="${style_path} \w"
 PS1+="\$(prompt_git)"
 PS1+="\n"
 PS1+="${style_chars}\$ \[${RESET}\]"
-PS1+="\$(checkfile)"
 if [ -f ~/.extra ]; then
   source ~/.extra
 fi
