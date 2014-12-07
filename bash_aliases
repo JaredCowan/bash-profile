@@ -27,6 +27,7 @@ alias mongod="sudo mongod"
 alias gitsu="git push --set-upstream origin master"
 alias raker="rake routes"
 alias build="grunt dist"
+alias bash="" # Catch an error that happens if I just type `bash` into command line.
 alias gith="git push heroku master"
 alias dbrb="rake db:rollback"
 alias edbc="bundle exec rake db:create"

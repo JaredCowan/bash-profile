@@ -1,6 +1,8 @@
 push() {
+  local SUCCESS SSH
   SUCCESS=false
   SSH=jaredcowan@sincitylivin.com
+
   if [ $# -gt 0 ]; then
     if [ $# -eq 1 ] && [ "$1" == "thriii" ]; then
       SUCCESS=true
@@ -45,29 +47,6 @@ push() {
       echo "${RESET}${RED}No argument(s) supplied${RESET}"
   fi
 }
-install_htop() {
-  cd ~
-  printf "${RESET}${RED}$USER${RESET}${BCYAN}, We're going to curl and download the file\nin your home directory ${RESET}${RED}\"$PWD\".${RESET}\n"
-  printf "${RESET}${GREEN}Here is a link to view what you're downloading, ${RED}$USER${RESET}.\n${BLUE}http://themainframe.ca/2011/06/install-htop-on-mac-os-x/${RESET}\n"
-  echo -n "${RESET}${PURPLE}Would you like to continue with the download? ${RESET}${GREEN}yes${RESET}${RED}/${RESET}${RED}no:${RESET} "
-  read response
-  if [[ "$response" == "yes" || "$response" == "Yes" || "$response" == "YES" ]]; then
-    curl -O "http://themainframe.ca/wp-content/uploads/2011/06/htop.zip"
-    unzip htop.zip
-    printf "\n${RESET}${RED}$USER${RESET}${BCYAN}, It's going to ask for your password as we need to run ${RESET}${RED}\"sudo mv htop /bin\"${RESET}.\n"
-    echo -n "${RESET}${PURPLE}Would you like to continue? ${RESET}${GREEN}yes${RESET}${RED}/${RESET}${RED}no:${RESET} "
-    read secondResponse
-    if [[ "$secondResponse" == "yes" || "$secondResponse" == "Yes" || "$secondResponse" == "YES" ]]; then
-      sudo mv htop /bin
-      rm htop.zip
-      printf "${RESET}${GREEN}You are all installed. Restart terminal and try running \"htop\"${RESET}\n"
-    elif [[ "$secondResponse" == "no" || "$secondResponse" == "No" || "$secondResponse" == "NO" ]]; then
-      printf "${RESET}${RED}Download canceled.${RESET}\n"
-    fi
-  elif [[ "$response" == "no" || "$response" == "No" || "$response" == "NO" ]]; then
-    printf "${RESET}${GREEN}Download canceled.${RESET}\n"
-  fi
-}
 
 checkfile() {
   local lcl=$HOME/.bash_profile
@@ -79,13 +58,27 @@ checkfile() {
   fi
 }
 
-google() {
+__search() {
+  local search_term site_name
+  site_name=$1
   while (( "$#" )); do
-  if [ "$1" ]; then 
-    local search+="$1+"
-  fi
+      if [ "$2" ]; then 
+        search_term+="$2+"
+      fi
   shift; done
-  open "http://www.google.com/search?q=$search"
+  open "http://www.$site_name.com/search?q=$search_term"
+}
+
+google() {
+  __search "Google" $@
+}
+
+stackoverflow() {
+  __search "Stackoverflow" $@
+}
+
+github() {
+  __search "GitHub" $@
 }
 
 lazy() { 
@@ -122,14 +115,16 @@ EOF
 }
 
 genstats(){
-  echo "------------------------------------------"
-  echo $(ruby -v)
-  echo $(rails -v)
-  echo $(git --version)
-  echo $(heroku --version)
-  echo $(psql --version)
-  echo $(brew -v)
-  echo "------------------------------------------"
+  cat <<-GENSTATS
+  ------------------------------------------
+    $(ruby -v)
+    $(rails -v)
+    $(git --version)
+    $(heroku --version)
+    $(psql --version)
+    $(brew -v)
+  ------------------------------------------
+GENSTATS
 }
 
 is_git_repo() {
@@ -150,6 +145,7 @@ get_git_branch() {
     branch_name="(unknown)"
     printf $branch_name
 }
+
 prompt_git() {
   local git_info git_state uc us ut st
   if ! is_git_repo || is_git_dir; then
@@ -178,4 +174,28 @@ prompt_git() {
     git_info="$git_info${RESET}[$git_state${RESET}]"
   fi
   printf "${BLUE} on ${style_branch}${git_info}"
+}
+
+install_htop() {
+  cd ~
+  printf "${RESET}${RED}$USER${RESET}${BCYAN}, We're going to curl and download the file\nin your home directory ${RESET}${RED}\"$PWD\".${RESET}\n"
+  printf "${RESET}${GREEN}Here is a link to view what you're downloading, ${RED}$USER${RESET}.\n${BLUE}http://themainframe.ca/2011/06/install-htop-on-mac-os-x/${RESET}\n"
+  echo -n "${RESET}${PURPLE}Would you like to continue with the download? ${RESET}${GREEN}yes${RESET}${RED}/${RESET}${RED}no:${RESET} "
+  read response
+  if [[ "$response" == "yes" || "$response" == "Yes" || "$response" == "YES" ]]; then
+    curl -O "http://themainframe.ca/wp-content/uploads/2011/06/htop.zip"
+    unzip htop.zip
+    printf "\n${RESET}${RED}$USER${RESET}${BCYAN}, It's going to ask for your password as we need to run ${RESET}${RED}\"sudo mv htop /bin\"${RESET}.\n"
+    echo -n "${RESET}${PURPLE}Would you like to continue? ${RESET}${GREEN}yes${RESET}${RED}/${RESET}${RED}no:${RESET} "
+    read secondResponse
+    if [[ "$secondResponse" == "yes" || "$secondResponse" == "Yes" || "$secondResponse" == "YES" ]]; then
+      sudo mv htop /bin
+      rm htop.zip
+      printf "${RESET}${GREEN}You are all installed. Restart terminal and try running \"htop\"${RESET}\n"
+    elif [[ "$secondResponse" == "no" || "$secondResponse" == "No" || "$secondResponse" == "NO" ]]; then
+      printf "${RESET}${RED}Download canceled.${RESET}\n"
+    fi
+  elif [[ "$response" == "no" || "$response" == "No" || "$response" == "NO" ]]; then
+    printf "${RESET}${GREEN}Download canceled.${RESET}\n"
+  fi
 }
