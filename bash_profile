@@ -79,7 +79,7 @@ push() {
       fi
       cp $HOME/.bash_profile $HOME/bash-files/bash_profile
       cp $HOME/.gitconfig $HOME/bash-files/git_config
-      $(git d "${commitmessage}" && git p)
+      git d "${commitmessage}" && git p
       cd $currentworkingdir
     elif [ !$SUCCESS ]; then
       echo "${RESET}${BLUE}${BOLD}$@ ${RESET}${RED} is not a valid argument for ${RESET}${BLUE}${BOLD}PUSH${RESET}"
@@ -112,13 +112,13 @@ install_htop() {
   fi
 }
 checkfile() {
-  # lcl=$HOME/.bash_profile
-  # rmt=$HOME/bash-files/bash_profile
-  # if [ $lcl -nt $rmt ]; then
-  #   echo "File 1 is newer than file 2"
-  # else
-  #   echo "File 1 is older than file 2"
-  # fi
+  lcl=$HOME/.bash_profile
+  rmt=$HOME/bash-files/bash_profile
+  if [ $lcl -nt $rmt ]; then
+    echo "File 1 is newer than file 2"
+  else
+    echo "File 1 is older than file 2"
+  fi
   echo
 }
 lazy() { for x; do touch "$x"; open "$x"; done; }
