@@ -113,7 +113,7 @@ install_htop() {
 }
 checkfile() {
   lcl=$HOME/.bash_profile
-  rmt=$HOME/bash-files/bash_profilee
+  rmt=$HOME/bash-files/bash_profile
   if [ $lcl -nt $rmt ]; then
     echo "File 1 is newer than file 2"
   else
