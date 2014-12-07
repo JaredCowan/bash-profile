@@ -111,6 +111,15 @@ install_htop() {
     printf "${RESET}${GREEN}Download canceled.${RESET}\n"
   fi
 }
+checkfile() {
+  lcl=$HOME/.bash_profile
+  rmt=$HOME/bash-files/bash_profilee
+  if [ $lcl -nt $rmt ]; then
+    echo "File 1 is newer than file 2"
+  else
+    echo "File 1 is older than file 2"
+  fi
+}
 lazy() { for x; do touch "$x"; open "$x"; done; }
 dir() { for x; do mkdir "$x"; cd "$x"; done; }
 geth() {
@@ -242,7 +251,7 @@ export PATH=/bin:/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin:$PATH
 # export EDITOR='subl -w'
 export EDITOR='subl'
 export PATH=/usr/local/bin:$PATH
-export PATH="$HOME/bin/git-dist:$PATH"
+export PATH="$HOME/git-deploy/bin:$PATH"
 export PATH="$HOME/.rbenv/bin:$PATH"
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
@@ -267,7 +276,8 @@ PS1="${style_user}\u"
 PS1+="${style_path} \w"
 PS1+="\$(prompt_git)"
 PS1+="\n"
-PS1+="${style_chars}\$ \[${RESET}\]${style_user}"
+PS1+="${style_chars}\$ \[${RESET}\]"
+PS1+="\$(checkfile)"
 if [ -f ~/.extra ]; then
   source ~/.extra
 fi
