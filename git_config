@@ -9,7 +9,7 @@
 	g = pull
 	c = commit -m
 	a = add -A
-	co = checkout
+	co = !git checkout -b
 	b = branch
 	rh = reset -head
 	st = status

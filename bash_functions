@@ -1,3 +1,4 @@
+#!/usr/bin/env sh
 push() {
   local SUCCESS SSH
   SUCCESS=false
@@ -81,6 +82,54 @@ github() {
   __search "GitHub" $@
 }
 
+makegrunt() {
+  local workingdir=$(pwd)
+  local copysource=$HOME/.grunt-init
+
+  if [[ $(pwd) != $HOME && $(pwd) != '/' ]]; then
+    if [ ! -e $(pwd)/.secret.json ]; then
+      printf '\n%s\n' "Created .secret.json"
+      cp $copysource/.secret.json $workingdir/.secret.json
+    else
+      fileexist+=" .secret.json "
+    fi
+
+    if [ ! -e $(pwd)/.gitignore ]; then
+      printf '\n%s\n' "Created .gitignore"
+      cp $copysource/.gitignore $workingdir/.gitignore
+    else
+      fileexist+=" .gitignore "
+    fi
+
+    if [ ! -e $(pwd)/Gruntfile.js ]; then
+      printf '\n%s\n' "Created Gruntfile.js"
+      cp $copysource/Gruntfile.js $workingdir/Gruntfile.js
+    else
+      fileexist+=" Gruntfile.js "
+    fi
+
+    if [ ! -e $(pwd)/package.json ]; then
+      printf '\n%s\n' "Created package.json"
+      cp $copysource/package.json $workingdir/package.json
+    else
+      fileexist+=" package.json "
+    fi
+
+    if [ ! -z "$fileexist" ]; then
+      printf '\n%s\n' "${RED}ERROR:${RESET}"
+      printf '%s\n' "${YELLOW}These files already exist:"
+      printf '%s\n' "$fileexist${RESET}"
+    else
+      printf '\n%s\n' "${RED}Sudo NPM install${RESET}"
+      sudo npm install
+    fi
+  else
+    printf '\n%s\n' "${RED}ERROR:${RESET}"
+    printf '\t%s\n' "${YELLOW}Can't make these files in root!${RESET}"
+    echo
+  fi
+}
+
 lazy() { 
   for x
     do touch "$x"
@@ -92,7 +141,6 @@ dir() {
   for x
     do 
       mkdir "$x"
-      cd "$x"
   done
 }
 
