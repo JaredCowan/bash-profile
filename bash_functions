@@ -59,7 +59,7 @@ checkfile() {
   fi
 }
 
-__search() {
+_search() {
   local search_term site_name
   site_name=$1
   while (( "$#" )); do
@@ -71,7 +71,7 @@ __search() {
 }
 
 google() {
-  __search "Google" $@
+  _search "Google" $@
 }
 
 stackoverflow() {
