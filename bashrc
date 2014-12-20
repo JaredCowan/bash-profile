@@ -22,4 +22,5 @@ export HISTIGNORE="h:ls:ls *:ll:ll *:"
 shopt -s histappend
 shopt -s cdspell
 shopt -s cmdhist
-PROMPT_COMMAND='history -a'
+PROMPT_COMMAND='history -a' ### Added by the Heroku Toolbelt
+export PATH="/usr/local/heroku/bin:$PATH"

@@ -5,6 +5,7 @@ alias downloads="cd ~/Downloads"
 alias pictures="cd ~/Pictures"
 alias thriii="cd ~/Documents/Thriii"
 alias salty="cd ~/Documents/salty-ui"
+alias sublime="cd ~/Library/Application\ Support/Sublime\ Text\ 3"
 alias desk="cd ~/Desktop"
 alias doc="cd ~/Documents"
 # Open Bash Profile Files
