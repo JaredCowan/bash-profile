@@ -36,7 +36,6 @@ push() {
       cp $HOME/.bash_profile $HOME/bash-profile/bash_profile
       cp $HOME/.bash_aliases $HOME/bash-profile/bash_aliases
       cp $HOME/.bash_colors $HOME/bash-profile/bash_colors
-      cp $HOME/.gitconfig $HOME/bash-profile/git_config
       cp $HOME/.profile $HOME/bash-profile/profile
       cp $HOME/.bashrc $HOME/bash-profile/bashrc
       git d "${commitmessage}" && git p
