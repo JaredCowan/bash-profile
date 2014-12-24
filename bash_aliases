@@ -1,6 +1,7 @@
 #!/usr/bin/env sh
 # Quick Folder Change
 alias gitdeploy="cd ~/git-deploy"
+alias bashfiles="cd ~/bash-profile"
 alias downloads="cd ~/Downloads"
 alias pictures="cd ~/Pictures"
 alias thriii="cd ~/Documents/Thriii"
