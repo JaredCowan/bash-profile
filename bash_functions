@@ -59,26 +59,49 @@ checkfile() {
 }
 
 _search() {
-  local search_term site_name
-  site_name=$1
+  local web search_term web_search site_name qBuilder
+
+  if [[ "$1" == "web" ]]; then
+    web=$1
+    site_name=$2
+  else
+    qBuilder=""
+  fi
+
   while (( "$#" )); do
-      if [ "$2" ]; then 
-        search_term+="$2+"
-      fi
+    if [ "$web" ]; then
+      search_term+="$2+"
+    else
+      qBuilder+="$1 "
+    fi
   shift; done
-  open "http://www.$site_name.com/search?q=$search_term"
+
+  if [ "$search_term" ];then
+    # We need to delete the two extra '+' from end of string do to the extra passed params
+    open "http://www.$site_name.com/search?q="$search_term | rev | cut -c 3- | rev
+  else
+    # Return built query string
+    echo $qBuilder
+  fi
+}
+
+help() {
+  # Pass argv to _search function and return
+  q=$(_search $@)
+  # Open docs app from built query
+  open dash://"$q"
 }
 
 google() {
-  _search "Google" $@
+  _search "web" "Google" $@
 }
 
 stackoverflow() {
-  __search "Stackoverflow" $@
+  _search "web" "Stackoverflow" $@
 }
 
 github() {
-  __search "GitHub" $@
+  _search "web" "GitHub" $@
 }
 
 makegrunt() {
