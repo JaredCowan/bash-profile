@@ -1,13 +1,39 @@
 #!/usr/bin/env sh
+
+# Since all my stuff is public. A little function to read data from a non-shared file.
+# Create a file at root ~ called .secret
+## Then in that file. create a variable (one per line) test="Hello World!"
+## Get the data by calling $(secret test) -returns-> "Hello World!"
+secret() {
+  # File to read from
+  local file=~/.secrets
+
+  # Assign parameter passed
+  local argv=$1
+
+  # We can read file based on line number passed.
+  # local readFile=$(sed -n $1p $file)
+
+  # Read file based on the line starting with the word passed as a parameter
+  local readFile=$(grep ^$argv $file)
+  # Perform regex to return only the value of the variable
+  ## Example: Given that our file has a variable called email=example@example.com
+  ## from a function you could call $(secret email) and it would return example@example.com
+  local fileRead=${readFile#*=}
+
+  # Return the data
+  echo $fileRead
+}
+
 push() {
   local SUCCESS SSH
   SUCCESS=false
-  SSH=jaredcowan@sincitylivin.com
+  SSH=$(secret email)
 
   if [ $# -gt 0 ]; then
     if [ $# -eq 1 ] && [ "$1" == "thriii" ]; then
       SUCCESS=true
-      REMOTE=public_html/jaredlucascowan.com/thriii
+      REMOTE=$(secret thriiiPath)
       LOCALFILE=~/Documents/Thriii
       scp "$LOCALFILE/index.html" "$SSH:$REMOTE"
       scp -r "$LOCALFILE/css" "$SSH:$REMOTE/css"
@@ -45,16 +71,6 @@ push() {
     fi
     else
       echo "${RESET}${RED}No argument(s) supplied${RESET}"
-  fi
-}
-
-checkfile() {
-  local lcl=$HOME/.bash_profile
-  local rmt=$HOME/bash-files/bash_profile
-  if [ $lcl -nt $rmt ]; then
-    echo "Local Files are newer than Remote Files"
-  else
-    echo "Remote Files are newer than Local Files"
   fi
 }
 
