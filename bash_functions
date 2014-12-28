@@ -59,7 +59,7 @@ checkfile() {
 }
 
 _search() {
-  local web search_term web_search site_name qBuilder
+  local web search_term site_name qBuilder
 
   if [[ "$1" == "web" ]]; then
     web=$1
