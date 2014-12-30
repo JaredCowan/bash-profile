@@ -4,6 +4,7 @@
 # Create a file at root ~ called .secret
 ## Then in that file. create a variable (one per line) test="Hello World!"
 ## Get the data by calling $(secret test) -returns-> "Hello World!"
+
 secret() {
   # File to read from
   local file=~/.secrets
@@ -75,26 +76,30 @@ push() {
 }
 
 _search() {
-  local web search_term site_name qBuilder
+  local web searchTerm siteName qBuilder
 
-  if [[ "$1" == "web" ]]; then
-    web=$1
-    site_name=$2
-  else
-    qBuilder=""
-  fi
+  case $1 in
+    "web")
+      web=$1
+      siteName=$2
+    ;;
+    *)
+      qBuilder=""
+    ;;
+  esac
 
-  while (( "$#" )); do
-    if [ "$web" ]; then
-      search_term+="$2+"
+  while (( $# )); do
+    if [ ${#3} -ge 1 ]; then
+      searchTerm+="$3+"
     else
       qBuilder+="$1 "
     fi
   shift; done
 
-  if [ "$search_term" ];then
-    # We need to delete the two extra '+' from end of string do to the extra passed params
-    open "http://www.$site_name.com/search?q="$search_term | rev | cut -c 3- | rev
+  if [ ${#searchTerm} -gt 0 ];then
+    # We need to delete the extra '+' from end of string due to the extra passed params
+    local searchUrl="http://www.${siteName}.com/search?q="${searchTerm%?}
+    open $searchUrl
   else
     # Return built query string
     echo $qBuilder
