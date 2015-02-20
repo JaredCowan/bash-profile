@@ -14,6 +14,8 @@ alias bf="subl ~/.bash_functions"
 alias bp="subl ~/.bash_profile"
 alias ba="subl ~/.bash_aliases"
 alias br="subl ~/.bashrc"
+alias bpp="subl ~/.profile"
+alias gc="subl ~/.gitconfig"
 # Life Saving Aliases
 alias genstats=genstats
 alias precompile="RAILS_ENV=production bundle exec rake assets:precompile"
@@ -39,6 +41,13 @@ alias list='ls -F'
 alias simp='irb --simple-prompt'
 alias dbc="rake db:create"
 alias dbm="rake db:migrate"
+alias hrc="heroku run rails c"
+alias hdbm="heroku run rake db:migrate"
+alias hdbc="heroku run rake db:create"
+alias sidekick="bundle exec sidekiq -C config/sidekiq.yml"
+alias memcached="/usr/local/opt/memcached/bin/memcached"
+alias redis="redis-server /usr/local/etc/redis.conf"
+alias cc="rake tmp:cache:clear"
 alias app="genghisapp"
 alias rm="rm -rf -i"
 alias rc="rails c"
