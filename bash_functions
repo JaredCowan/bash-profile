@@ -61,20 +61,7 @@ push() {
   SSH=$(secret email)
 
   if [ $# -gt 0 ]; then
-    if [ $# -eq 1 ] && [ "$1" == "thriii" ]; then
-      SUCCESS=true
-      REMOTE=$(secret thriiiPath)
-      LOCALFILE=~/Documents/Thriii
-      scp "$LOCALFILE/index.html" "$SSH:$REMOTE"
-      scp -r "$LOCALFILE/css" "$SSH:$REMOTE/css"
-      scp "$LOCALFILE/js/common-scripts.js" "$SSH:$REMOTE/js"
-    elif [ $# -eq 2 ] && [ "$1" == "thriii" ] && [ "$2" == "-a" ]; then
-      SUCCESS=true
-      scp -r "$LOCALFILE/index.html" "$SSH:$REMOTE"
-      scp -r "$LOCALFILE/css" "$SSH:$REMOTE"
-      scp -r "$LOCALFILE/js" "$SSH:$REMOTE"
-      scp -r "$LOCALFILE/assets" "$SSH:$REMOTE"
-    elif [ "$1" == "bash" ]; then
+    if [ "$1" == "bash" ]; then
       SUCCESS=true
       currentworkingdir=$(pwd)
       cd $HOME/bash-profile
