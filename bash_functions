@@ -1,13 +1,17 @@
 #!/usr/bin/env sh
 
 # Since all my stuff is public. A little function to read data from a non-shared file.
-# Create a file at root ~ called .secret
-## Then in that file. create a variable (one per line) test="Hello World!"
-## Get the data by calling $(secret test) -returns-> "Hello World!"
+# Create a file in your root directory(~) called configsecrets.yaml (touch ~/configsecrets.yaml)
+# Then in that file. Start creating variables in yaml format. (http://en.wikipedia.org/wiki/YAML)
+# example:
+#   data:
+#     username: John Doe
+#     ipaddress: 192.168.1.1
+# Get the data by calling $(secret test) -returns-> "Hello World!"
 
 secret() {
   # File to read from
-  local file=~/.secrets
+  local file=~/configsecrets.yaml
 
   # Assign parameter passed
   local argv=$1
@@ -16,15 +20,40 @@ secret() {
   # local readFile=$(sed -n $1p $file)
 
   # Read file based on the line starting with the word passed as a parameter
-  local readFile=$(grep ^$argv $file)
+  local readFile=$(grep "^$argv" $file)
   # Perform regex to return only the value of the variable
   ## Example: Given that our file has a variable called email=example@example.com
   ## from a function you could call $(secret email) and it would return example@example.com
-  local fileRead=${readFile#*=}
+  local fileRead=${readFile#*:}
 
   # Return the data
   echo $fileRead
 }
+
+# Full Yaml not ready yet
+# read_config_yaml() {
+#    local prefix=$2
+#    local s='[[:space:]]*' w='[a-zA-Z0-9_]*' fs=$(echo @|tr @ '\034')
+#    sed -ne "s|^\($s\)\($w\)$s:$s\"\(.*$\)\"$s\$|\1$fs\2$fs\3|p" \
+#         -e "s|^\($s\)\($w\)$s:$s\(.*$\)$s\$|\1$fs\2$fs\3|p"  $1 |
+#    awk -F$fs '{
+#       indent = length($1)/2;
+#       vname[indent] = $2;
+#       for (i in vname) {if (i > indent) {delete vname[i]}}
+#       if (length($3) > 0) {
+#          vn=""; for (i=0; i<indent; i++) {vn=(vn)(vname[i])("_")}
+#          printf("%s%s%s=\"%s\"\n", "'$prefix'",vn, $2, $3);
+#       }
+#    }'
+# }
+
+# secret() {
+#   # Part of read_config_yaml()
+#   # Just a replacement so I don't have to type `$ echo [$foo_variable_name]`
+#   # I can type `$ secret [$foo_variable_name]` Just for more clarity
+#   echo "$1"
+# }
+
 
 push() {
   local SUCCESS SSH
