@@ -1,4 +1,4 @@
-export PS1="\[\e[96m\]\u\[\e[0m\]\[\e[0;33m\]\w\n\[\e[5;91m\]\$ \[\e[0m\] "
+export PS1="\[\e[96m\]\u\[\e[0m\]\[\e[0;33m\]\w\n\[\e[5;91m\]\$ \[\e[0m\]"
 style_user="\[${RESET}${YELLOW}\]"
 style_path="\[${RESET}${CYAN}\]"
 style_chars="\[${RESET}${BLUE}\]"
@@ -24,3 +24,6 @@ shopt -s cdspell
 shopt -s cmdhist
 PROMPT_COMMAND='history -a' ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
+
+export NVM_DIR="/Users/JaredMBP/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm

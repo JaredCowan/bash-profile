@@ -285,7 +285,7 @@ get_git_branch() {
 
 prompt_git() {
   local git_info git_state uc us ut st
-  if ! is_git_repo || is_git_dir; then
+  if ! is_git_dir || is_git_repo; then
     return 1
   fi
   git_info=$(get_git_branch)
