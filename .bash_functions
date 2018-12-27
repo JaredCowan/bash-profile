@@ -111,7 +111,7 @@ push() {
       cp $HOME/.bash_colors $HOME/bash-profile/bash_colors
       cp $HOME/.profile $HOME/bash-profile/profile
       cp $HOME/.bashrc $HOME/bash-profile/bashrc
-      git d "${commitmessage}" && git p
+      git c "${commitmessage}" && git p
       cd $currentworkingdir
     elif [ !$SUCCESS ]; then
       echo "${RESET}${BLUE}${BOLD}$@ ${RESET}${RED} is not a valid argument for ${RESET}${BLUE}${BOLD}PUSH${RESET}"
@@ -264,8 +264,12 @@ genstats(){
 GENSTATS
 }
 
+parse_git_branch() {
+  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}
+
 is_git_repo() {
-  $(git rev-parse --is-inside-work-tree &> /dev/null)
+  $(git rev-parse --is-inside-work-tree 2> /dev/null)
 }
 
 is_git_dir() {
@@ -336,3 +340,31 @@ install_htop() {
     printf "${RESET}${GREEN}Download canceled.${RESET}\n"
   fi
 }
+
+spam_mail() {
+  local counter=0;
+
+  while [ $counter -lt 200 ]; do
+      # You can do sudo -S and pipe your password to the command
+      # echo "my_password" | sudo -S <COMMAND>
+      sudo scutil --set ComputerName `LC_ALL=C tr -dc "[:alpha:]" < /dev/random | head -c 8`
+      sudo scutil --set LocalHostName `LC_ALL=C tr -dc "[:alpha:]" < /dev/random | head -c 8`
+      sudo scutil --set HostName `LC_ALL=C tr -dc "[:alpha:]" < /dev/random | head -c 8`
+      
+      echo $RANDOM | mail -vs $RANDOM "satya@hiringassociate.com" -F PUT_EMAIL; let counter=counter+1;
+      
+      sleep .200;
+  done
+}
+
+spam_chat() {
+  local counter=0;
+
+  while [ $counter -lt 200 ]; do
+      curl -H "Content-Type: application/json" -d '{"notify": "true", "message": "hello"}' 'https://api.hipchat.com/v2/user/@jared/message?auth_token=u49ogz9U0RLl3QODYDcQx2hMRDLIKcnkz2y52V5D&format=json';
+  done
+}
+
+
+
+

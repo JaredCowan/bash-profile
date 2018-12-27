@@ -1,12 +1,7 @@
-PATH="/Applications/Postgres.app/Contents/Versions/9.3/bin:$PATH"
-# PATH="/Applications/Postgres.app/Contents/Versions/9.3/bin:$PATH:$PATH"
-PATH=/usr/local/share/npm/bin:$PATH
-PATH="/usr/local/heroku/bin:$PATH"
-# export PATH=/bin:/sbin:/usr/local/sbin:/usr/local/bin:/usr/bin:$PATH
-export PATH=/bin:/sbin:/usr/local/sbin:/usr/local/bin:/usr/bin:$PATH
-# export PATH="/usr/local/heroku/bin:$PATH"
-# export PATH="/usr/local/bin:$PATH"
-export PATH="$HOME/git-deploy/bin:$PATH"
-export PATH="$HOME/.rbenv/bin:$PATH"
-export PATH=/usr/local/bin:$PATH
-export PATH
+source $HOME/bash-profile/.bash_profile
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
+export PATH=~/.npm-global/bin:$PATH
+
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*

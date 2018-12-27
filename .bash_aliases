@@ -6,17 +6,18 @@ alias downloads="cd ~/Downloads"
 alias pictures="cd ~/Pictures"
 alias thriii="cd ~/Documents/Thriii"
 alias salty="cd ~/Documents/salty-ui"
-alias sublime="cd ~/Library/Application\ Support/Sublime\ Text\ 3"
+alias subl='open $@ -a "Sublime Text"'
+alias ide='open $@ -a "WebStorm"'
 alias desk="cd ~/Desktop"
 alias doc="cd ~/Documents"
-alias pro="cd ~/Documents/projects"
+alias pro="cd ~/projects"
 # Open Bash Profile Files
-alias bf="subl ~/.bash_functions"
-alias bp="subl ~/.bash_profile"
-alias ba="subl ~/.bash_aliases"
-alias br="subl ~/.bashrc"
-alias bpp="subl ~/.profile"
-alias gc="subl ~/.gitconfig"
+alias bf="subl ~/bash-profile/.bash_functions"
+alias bp="subl ~/bash-profile/.bash_profile"
+alias ba="subl ~/bash-profile/.bash_aliases"
+alias br="subl ~/bash-profile/.bashrc"
+alias bpp="subl ~/bash-profile/.profile"
+alias gc="subl $HOME/.gitconfig"
 alias secrets="subl ~/configsecrets.yaml"
 # Life Saving Aliases
 alias genstats=genstats
